@@ -17,7 +17,7 @@ app.post(
 
     // Check the `x-github-event` header to learn what event type was sent.
     const githubEvent = request.headers["x-github-event"];
-
+    console.log(`x-github-event: ${githubEvent}`);
     // You should add logic to handle each event type that your webhook is subscribed to.
     // For example, this code handles the `issues` and `ping` events.
     //
@@ -38,14 +38,22 @@ app.post(
     } else if (githubEvent === "workflow_run") {
       const data = request.body;
       const action = data.action;
+      const workflow_run_name =
+        data.workflow_run.name === undefined
+          ? "unknown"
+          : data.workflow_run.name;
       console.log(
-        `A workflow_run fired with this name ${data.workflow_run.name} with action ${action}`,
+        `A workflow_run fired with this name ${workflow_run_name} with action ${action}`,
       );
     } else if (githubEvent === "workflow_job") {
       const data = request.body;
       const action = data.action;
+      const workflow_job_name =
+        data.workflow_job.name === undefined
+          ? "unknown"
+          : data.workflow_job.name;
       console.log(
-        `A workflow_job fired with this name ${data.workflow_job.workflow_name} with action ${action}`,
+        `A workflow_job fired with this name ${workflow_job_name} with action ${action}`,
       );
       writeData(data);
     } else if (githubEvent === "deployment") {
@@ -59,7 +67,7 @@ app.post(
       const data = request.body;
       const action = data.action;
       console.log(
-        `A deployment_status fired with this name ${data.deployment_status.id} with action ${action}`,
+        `A deployment_status fired with this id ${data.deployment_status.id} with action ${action}`,
       );
       writeData(data);
     } else if (githubEvent === "ping") {
