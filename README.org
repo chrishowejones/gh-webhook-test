@@ -1,0 +1,55 @@
+* Listen to Github webhook
+
+  This is a simple Typescript app that will listen to webhooks from github and output messages (and the data payload for
+  deployment and webhook job events).
+
+  
+** Setup
+
+   To install clone this repo and then run:
+
+   #+begin_src bash
+     yarn install
+   #+end_src
+
+** Build
+
+   To build this app.
+
+   #+begin_src bash
+     yarn tsc
+   #+end_src
+
+   
+** Run
+
+   To run this app you will need to set up a proxy to direct the Github webhook in your repo to you local machine.
+
+   Install smee client.
+
+   #+begin_src bash
+     npm install --global smee-client
+   #+end_src
+
+   Or
+   
+   #+begin_src bash
+     yarn global add smee-client
+   #+end_src
+
+
+   Set up a smee proxy URL at https://smee.io/ and set the github webhook in your repo to post to this url for the
+   events you're interested in.
+
+   Start the smee client for the URL from above.
+
+   #+begin_src bash
+     smee --url https://smee.io/<your url> --path /webhook --port 3000
+   #+end_src
+
+   Then you can start the server on port 3000 to listen to the webhook events.
+
+
+   #+begin_src bash
+     yarn start
+   #+end_src
